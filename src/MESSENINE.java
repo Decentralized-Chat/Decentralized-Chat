@@ -1,7 +1,9 @@
 
 import javax.swing.JOptionPane;
 import java.awt.*;
-
+import javax.swing.DefaultListModel;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -124,11 +126,6 @@ public class MESSENINE extends javax.swing.JFrame {
 
         nickname_text.setText("Please input");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -190,6 +187,9 @@ public class MESSENINE extends javax.swing.JFrame {
             }
         }
         nickname_text.setText(nickname);
+        jList1.setModel(list);
+        list.addElement(nickname);
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void jFrame1WindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowActivated
@@ -345,7 +345,7 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel){
             }
         });
     }
-
+    DefaultListModel list = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Yournickname_text;
     private javax.swing.JButton getnickname;
