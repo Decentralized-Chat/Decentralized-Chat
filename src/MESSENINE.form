@@ -193,7 +193,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="nickname_text">
       <Properties>
-        <Property name="text" type="java.lang.String" value="NICKNAME"/>
+        <Property name="text" type="java.lang.String" value="Please input"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

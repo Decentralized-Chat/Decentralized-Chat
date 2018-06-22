@@ -122,7 +122,7 @@ public class MESSENINE extends javax.swing.JFrame {
 
         Yournickname_text.setText("Your nickname:");
 
-        nickname_text.setText("NICKNAME");
+        nickname_text.setText("Please input");
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -178,19 +178,18 @@ public class MESSENINE extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
        // jFrame1.setVisible(true);
-       while(nickname.equals("")){
-            nickname = JOptionPane.showInputDialog(this, "Please Enter your nickname",
-            "Creating account", JOptionPane.QUESTION_MESSAGE);
-
-            nickname_text.setText(nickname);
-            if(nickname == null){
+        String defaultnickname = "";
+        while(nickname.equals("")) {
+            nickname = (String) JOptionPane.showInputDialog(this, "Please Enter your nickname", "", JOptionPane.QUESTION_MESSAGE, null, null, defaultnickname);
+            if (nickname == null) {
                 dispose();
                 break;
-            }else{
-                nickname_text.setText(nickname);
+            } else if (nickname.equals("")) {
+                String randomnickname[] = new String[]{"Alice", "Bob", "Carol", "Dan", "Erin", "Eve", "Faythe", "Frank", "Grace", "Heidi", "Judy", "Mallory", "Niaj", "Olivia", "Oscar", "Peggy", "Sybil", "Trent", "Victor", "Walter", "Wendy"};
+                defaultnickname = randomnickname[(int)(Math.random()*randomnickname.length)];
             }
-       }
-
+        }
+        nickname_text.setText(nickname);
     }//GEN-LAST:event_formWindowOpened
 
     private void jFrame1WindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowActivated
