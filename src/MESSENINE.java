@@ -347,7 +347,6 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
     }
     
     javax.swing.GroupLayout targetPanelLayout = new javax.swing.GroupLayout(targetPanel);
-    targetPanel.setLayout(targetPanelLayout);
     targetPanelLayout.setHorizontalGroup(
         targetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(targetPanelLayout.createSequentialGroup()
@@ -362,6 +361,7 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
             .addComponent(jPanel_tmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap(0, Short.MAX_VALUE))
     );
+    targetPanel.setLayout(targetPanelLayout);
 
     Vertical_Offset += Vertical_h;
     return true;
