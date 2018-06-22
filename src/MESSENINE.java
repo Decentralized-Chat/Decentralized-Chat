@@ -209,17 +209,12 @@ public class MESSENINE extends javax.swing.JFrame {
     }//GEN-LAST:event_getnicknameActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
-        newChat(nickname_text.getText(),jTextArea2.getText(),jPanel1,true);
+        newChat(nickname_text.getText(),jTextArea2.getText(),jPanel1);
     }//GEN-LAST:event_sendActionPerformed
 
-    int count = 0;
+ 
+int Vertical_Offset = 7;
 boolean newChat(String name, String text, javax.swing.JPanel targetPanel){
-    return newChat(name, text, targetPanel, false);
-}
-
-boolean newChat(String name, String text, javax.swing.JPanel targetPanel, boolean isYou){
-    int Vertical_h = 55;
-    int Horizontal_v = 7;
     javax.swing.JPanel jPanel_tmp;
     javax.swing.JLabel jLabel_name;
     javax.swing.JTextArea jTextArea_text;
@@ -228,15 +223,41 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, boolea
     jLabel_name = new javax.swing.JLabel();
     jTextArea_text = new javax.swing.JTextArea();
 
-    int text_length = (text.length()+1) * 18;
+    // ==========================================================
+    // 取得內容行高
+    int text_rows = 1;
+    for(int i = 0; i<text.length(); i++)
+        if(text.charAt(i)=='\n')text_rows+=1;
+    text_rows *= 25;
+    int Vertical_h = 60 + text_rows;
+    // ==========================================================
+    // ==========================================================
+    // 取得最寬的那行並取得寬度
+    String[] split_line = text.split("\n");
+    int long_line = 0;
+    for(int i = 0; i<split_line.length; i++)
+        if(split_line[i].length()>split_line[long_line].length())long_line = i;
+    int line_length = 16;
+    for(int i = 0; i<split_line[long_line].length(); i++){
+        if (( '9' >= split_line[long_line].charAt(i) && split_line[long_line].charAt(i) >= '0' ) || 
+            ( 'z' >= split_line[long_line].charAt(i) && split_line[long_line].charAt(i) >= 'a' )){
+            line_length += 10;
+        }else if( 'Z' >= split_line[long_line].charAt(i) && split_line[long_line].charAt(i) >= 'A' ){
+            line_length += 12;
+        }else{
+            line_length += 17;
+        }
+    }
+    System.out.println(line_length);
+    // int text_length = (split_line[long_line].length()+1) * 18;               // 原本的行寬方程式
+    int text_length = line_length;
+    // ==========================================================
+    int Horizontal_v = 7;
 
-    System.out.println(targetPanel.getWidth());
-
-    if(isYou)
-        Horizontal_v = targetPanel.getWidth() - (text_length + 150); 
+    // System.out.println(targetPanel.getWidth());
 
     jPanel_tmp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-    jPanel_tmp.setPreferredSize(new java.awt.Dimension(text_length + 100,50));
+    jPanel_tmp.setPreferredSize(new java.awt.Dimension(text_length + 23, 57 + text_rows));  // Panel 寬&長
 
     jLabel_name.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
     jLabel_name.setText(name);
@@ -248,35 +269,23 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, boolea
     javax.swing.GroupLayout jPanel_tmpLayout = new javax.swing.GroupLayout(jPanel_tmp);
 
     jPanel_tmp.setLayout(jPanel_tmpLayout);
-    if(isYou){      
-        jPanel_tmpLayout.setHorizontalGroup(
-            jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_tmpLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, text_length, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel_name)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-    }else{
-        jPanel_tmpLayout.setHorizontalGroup(
-            jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel_tmpLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel_name)
-                .addGap(18, 18, 18)
-                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, text_length, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-    }
-    jPanel_tmpLayout.setVerticalGroup(
+    jPanel_tmpLayout.setHorizontalGroup(
         jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel_tmpLayout.createSequentialGroup()
             .addContainerGap()
             .addGroup(jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jLabel_name))
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel_name)
+                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, text_length, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(80, Short.MAX_VALUE))
+    );
+    jPanel_tmpLayout.setVerticalGroup(
+        jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel_tmpLayout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jLabel_name, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(21, Short.MAX_VALUE))
     );
 
     
@@ -292,12 +301,12 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, boolea
     targetPanelLayout.setVerticalGroup(
         targetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(targetPanelLayout.createSequentialGroup()
-            .addGap(7 + Vertical_h * count)
+            .addGap(Vertical_Offset)
             .addComponent(jPanel_tmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addContainerGap(0, Short.MAX_VALUE))
     );
 
-    count += 1;
+    Vertical_Offset += Vertical_h;
     return true;
 }
     
