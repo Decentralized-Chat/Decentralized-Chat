@@ -261,23 +261,24 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
     // ==========================================================
     // 取得最寬的那行並取得寬度
     String[] split_line = text.split("\n", -1);
-    int long_line = 0;
-    for(int i = 0; i<split_line.length; i++)
-        if(split_line[i].length()>split_line[long_line].length())long_line = i;
-    int line_length = 16;
-    for(int i = 0; i<split_line[long_line].length(); i++){
-        if (( '9' >= split_line[long_line].charAt(i) && split_line[long_line].charAt(i) >= '0' ) || 
-            ( 'z' >= split_line[long_line].charAt(i) && split_line[long_line].charAt(i) >= 'a' )){
-            line_length += 10;
-        }else if( 'Z' >= split_line[long_line].charAt(i) && split_line[long_line].charAt(i) >= 'A' ){
-            line_length += 12;
-        }else{
-            line_length += 17;
+    int maxWidth = 0;
+    for (int line = 0; line<split_line.length; line++) {
+        int line_length = 16;
+        for(int i = 0; i<split_line[line].length(); i++){
+            if (( '9' >= split_line[line].charAt(i) && split_line[line].charAt(i) >= '0' ) || 
+                ( 'z' >= split_line[line].charAt(i) && split_line[line].charAt(i) >= 'a' )){
+                line_length += 10;
+            }else if( 'Z' >= split_line[line].charAt(i) && split_line[line].charAt(i) >= 'A' ){
+                line_length += 12;
+            }else{
+                line_length += 18;
+            }
         }
+        maxWidth = Math.max(maxWidth, line_length);
     }
-    System.out.println(line_length);
+    System.out.println(maxWidth);
     // int text_length = (split_line[long_line].length()+1) * 18;               // 原本的行寬方程式
-    int text_length = line_length;
+    int text_length = maxWidth;
     // ==========================================================
     int Horizontal_v = 7;
 
