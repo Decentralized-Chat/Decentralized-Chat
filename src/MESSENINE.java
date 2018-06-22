@@ -248,7 +248,6 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
     jPanel_tmp = new javax.swing.JPanel();
     jLabel_name = new javax.swing.JLabel();
     jTextArea_text = new javax.swing.JTextArea();
-    jTextArea_text = new javax.swing.JTextArea();
     jLabel_text = new javax.swing.JLabel();
 
     // ==========================================================
