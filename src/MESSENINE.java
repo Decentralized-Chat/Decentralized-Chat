@@ -16,6 +16,7 @@ import javax.swing.event.ListDataListener;
  */
 public class MESSENINE extends javax.swing.JFrame {
     String nickname = "";
+    Operator operator = new Operator(this);
     /**
      * Creates new form MESSENINE
      */
@@ -201,6 +202,7 @@ public class MESSENINE extends javax.swing.JFrame {
         nickname_text.setText(nickname);
         jList1.setModel(list);
         list.addElement(nickname);
+        operator.launch("0.0.0.0", 9453);
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -224,6 +226,7 @@ public class MESSENINE extends javax.swing.JFrame {
         newChat(nickname_text.getText(),jTextArea2.getText(),jPanel1);
         jTextArea2.setText("");
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
+        operator.send(jTextArea2.getText());
     }//GEN-LAST:event_sendActionPerformed
 
  
