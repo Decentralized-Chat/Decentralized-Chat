@@ -26,6 +26,7 @@ public class MESSENINE extends javax.swing.JFrame {
 
     public void onOpen (String sockName) {
         newChat("System", sockName+"加入", jPanel1, 1);
+        operator.send("nickname",nickname_text.getText());
     }
 
     public void onClose (String sockName) {
@@ -34,6 +35,9 @@ public class MESSENINE extends javax.swing.JFrame {
 
     public void onMessage (String sockName, String type, String msg) {
         newChat(sockName, "("+type+")說"+msg, jPanel1, 0);
+        if(type.equals("nickname")){
+            list.addElement(msg);
+        }
     }
 
     /**
