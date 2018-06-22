@@ -1,6 +1,7 @@
 
 import javax.swing.JOptionPane;
 import java.awt.*;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -34,6 +35,7 @@ public class MESSENINE extends javax.swing.JFrame {
         nicknamefield = new javax.swing.JTextField();
         getnickname = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
         send = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
@@ -92,6 +94,19 @@ public class MESSENINE extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 608, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 314, Short.MAX_VALUE)
+        );
+
+        jScrollPane2.setViewportView(jPanel1);
 
         send.setFont(new java.awt.Font("新細明體", 0, 24)); // NOI18N
         send.setText("send");
@@ -195,9 +210,98 @@ public class MESSENINE extends javax.swing.JFrame {
     }//GEN-LAST:event_getnicknameActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
-        
+        newChat(nickname_text.getText(),jTextArea2.getText(),jPanel1,true);
     }//GEN-LAST:event_sendActionPerformed
 
+    int count = 0;
+boolean newChat(String name, String text, javax.swing.JPanel targetPanel){
+    return newChat(name, text, targetPanel, false);
+}
+
+boolean newChat(String name, String text, javax.swing.JPanel targetPanel, boolean isYou){
+    int Vertical_h = 55;
+    int Horizontal_v = 7;
+    javax.swing.JPanel jPanel_tmp;
+    javax.swing.JLabel jLabel_name;
+    javax.swing.JTextArea jTextArea_text;
+
+    jPanel_tmp = new javax.swing.JPanel();
+    jLabel_name = new javax.swing.JLabel();
+    jTextArea_text = new javax.swing.JTextArea();
+
+    int text_length = (text.length()+1) * 18;
+
+    System.out.println(targetPanel.getWidth());
+
+    if(isYou)
+        Horizontal_v = targetPanel.getWidth() - (text_length + 150); 
+
+    jPanel_tmp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+    jPanel_tmp.setPreferredSize(new java.awt.Dimension(text_length + 100,50));
+
+    jLabel_name.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+    jLabel_name.setText(name);
+
+    jTextArea_text.setFont(new java.awt.Font("微軟正黑體", 0, 18)); // NOI18N
+    jTextArea_text.setText(text);
+    jTextArea_text.setEditable(false);
+
+    javax.swing.GroupLayout jPanel_tmpLayout = new javax.swing.GroupLayout(jPanel_tmp);
+
+    jPanel_tmp.setLayout(jPanel_tmpLayout);
+    if(isYou){      
+        jPanel_tmpLayout.setHorizontalGroup(
+            jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_tmpLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, text_length, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel_name)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+    }else{
+        jPanel_tmpLayout.setHorizontalGroup(
+            jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_tmpLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel_name)
+                .addGap(18, 18, 18)
+                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, text_length, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+    }
+    jPanel_tmpLayout.setVerticalGroup(
+        jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(jPanel_tmpLayout.createSequentialGroup()
+            .addContainerGap()
+            .addGroup(jPanel_tmpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jTextArea_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel_name))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+    );
+
+    
+    javax.swing.GroupLayout targetPanelLayout = new javax.swing.GroupLayout(targetPanel);
+    targetPanel.setLayout(targetPanelLayout);
+    targetPanelLayout.setHorizontalGroup(
+        targetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(targetPanelLayout.createSequentialGroup()
+            .addGap(Horizontal_v)
+            .addComponent(jPanel_tmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(0, Short.MAX_VALUE))
+    );
+    targetPanelLayout.setVerticalGroup(
+        targetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(targetPanelLayout.createSequentialGroup()
+            .addGap(7 + Vertical_h * count)
+            .addComponent(jPanel_tmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(0, Short.MAX_VALUE))
+    );
+
+    count += 1;
+    return true;
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -239,6 +343,7 @@ public class MESSENINE extends javax.swing.JFrame {
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
