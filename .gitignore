@@ -1,0 +1,28 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# NetBeans specific
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Other
+manifest.mf
+src/image/
