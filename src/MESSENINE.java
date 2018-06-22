@@ -27,10 +27,12 @@ public class MESSENINE extends javax.swing.JFrame {
     public void onOpen (String sockName) {
         newChat("System", sockName+"加入", jPanel1, 1);
         operator.send("nickname",nickname_text.getText());
+        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     public void onClose (String sockName) {
         newChat("System", sockName+"離線", jPanel1, 1);
+        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     public void onMessage (String sockName, String type, String msg) {
@@ -38,6 +40,7 @@ public class MESSENINE extends javax.swing.JFrame {
         if(type.equals("nickname")){
             list.addElement(msg);
         }
+        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     /**
