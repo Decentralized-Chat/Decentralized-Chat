@@ -231,7 +231,7 @@ public class MESSENINE extends javax.swing.JFrame {
         newChat(nickname_text.getText(), jTextArea2.getText(), jPanel1, 0);
         jTextArea2.setText("");
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
-        operator.send(jTextArea2.getText());
+        operator.send("text", jTextArea2.getText());
     }//GEN-LAST:event_sendActionPerformed
 
  
