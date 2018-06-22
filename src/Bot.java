@@ -40,6 +40,8 @@ abstract class Bot implements Runnable {
   private int listenPort = 0;
   private Thread thread = null;
   private boolean running = false;
+  private String totpSecret = "----magic----";
+  private int totpAcceptDelay = 1;
 
   abstract void onOpen (String sockName);
   abstract void onClose (String sockName);
@@ -152,7 +154,8 @@ abstract class Bot implements Runnable {
           InetAddress clientIP = clientSockAddr.getAddress();
           String magic = byteBuffer2String(buf);
           System.out.printf("[UDP] from %s get: %s\n", clientSockAddr.toString(), magic);
-          if (magic.equals("----magic----") && (! clientIP.equals(inetAddr))) {
+          TOTP totp = new TOTP(totpSecret, totpAcceptDelay);
+          if (totp.checkToken(magic) && (! clientIP.equals(inetAddr))) {
             connect(clientIP, listenPort);
           }
         } else {
@@ -275,7 +278,9 @@ abstract class Bot implements Runnable {
     udpServer.socket().bind(addr);
     tcpServer.register(selectors, SelectionKey.OP_ACCEPT);
     udpServer.register(selectors, SelectionKey.OP_READ);
-    broadcast(listenPort, "----magic----");
+    TOTP totp = new TOTP(totpSecret, totpAcceptDelay);
+    String totpToken = totp.getToken();
+    broadcast(listenPort, totpToken);
     thread = new Thread(this);
     thread.start();
   }
