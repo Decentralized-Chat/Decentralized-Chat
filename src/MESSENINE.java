@@ -23,6 +23,18 @@ public class MESSENINE extends javax.swing.JFrame {
         initComponents();
     }
 
+    public void onOpen (String sockName) {
+        newChat("System", sockName+"加入", jPanel1);
+    }
+
+    public void onClose (String sockName) {
+        newChat("System", sockName+"離線", jPanel1);
+    }
+
+    public void onMessage (String sockName, String type, String msg) {
+        newChat(sockName, "("+type+")說"+msg, jPanel1);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
