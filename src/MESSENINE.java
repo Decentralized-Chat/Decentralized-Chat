@@ -42,8 +42,10 @@ public class MESSENINE extends javax.swing.JFrame {
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         switch (type) {
             case "nickname":
-                list.addElement(msg);
-                nicknames.put(sockName, msg);
+                if (! nicknames.containsKey(sockName)) {
+                    list.addElement(msg);
+                    nicknames.put(sockName, msg);
+                }
                 break;
 
             case "text":
