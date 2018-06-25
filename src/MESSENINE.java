@@ -26,7 +26,7 @@ public class MESSENINE extends javax.swing.JFrame {
 
     public void onOpen (String sockName) {
         newChat("System", sockName+"加入", jPanel1, 1);
-        operator.send("nickname",nickname_text.getText());
+        operator.send(sockName, "nickname",nickname_text.getText());
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 

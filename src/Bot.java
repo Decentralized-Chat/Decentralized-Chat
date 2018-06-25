@@ -66,6 +66,18 @@ abstract class Bot implements Runnable {
     }
   }
 
+  public void send (String sockName, String type, String msg) {
+    if (! connections.containsKey(sockName)) {
+      return;
+    }
+
+    try {
+      connections.get(sockName).write(ByteBuffer.wrap((type + ":" + msg).getBytes()));
+    } catch (Exception e) {
+      System.out.printf("[ERROR] when peer send to %s\n", sockName);
+    }
+  }
+
   public void launch (String host, int port) {
     running = true;
     try {
