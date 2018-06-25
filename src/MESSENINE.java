@@ -39,7 +39,6 @@ public class MESSENINE extends javax.swing.JFrame {
     }
 
     public void onMessage (String sockName, String type, String msg) {
-        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         switch (type) {
             case "nickname":
                 if (! nicknames.containsKey(sockName)) {
@@ -56,6 +55,7 @@ public class MESSENINE extends javax.swing.JFrame {
                 newChat(sockName, "("+type+")"+msg, jPanel1, 0);
 
         }
+        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     /**
