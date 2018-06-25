@@ -1,6 +1,8 @@
 
 import javax.swing.JOptionPane;
 import java.awt.*;
+import java.util.Map;
+import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -17,6 +19,7 @@ import javax.swing.event.ListDataListener;
 public class MESSENINE extends javax.swing.JFrame {
     String nickname = "";
     Operator operator = new Operator(this);
+    private Map<String, String> nicknames = new HashMap<>();
     /**
      * Creates new form MESSENINE
      */
@@ -36,11 +39,21 @@ public class MESSENINE extends javax.swing.JFrame {
     }
 
     public void onMessage (String sockName, String type, String msg) {
-        newChat(sockName, "("+type+")說"+msg, jPanel1, 0);
-        if(type.equals("nickname")){
-            list.addElement(msg);
-        }
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
+        switch (type) {
+            case "nickname":
+                list.addElement(msg);
+                nicknames.put(sockName, msg);
+                break;
+
+            case "text":
+                newChat(nicknames.get(sockName), msg, jPanel1, 0);
+                break;
+
+            default:
+                newChat(sockName, "("+type+")"+msg, jPanel1, 0);
+
+        }
     }
 
     /**
