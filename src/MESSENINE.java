@@ -28,20 +28,29 @@ public class MESSENINE extends javax.swing.JFrame {
     }
 
     public void onOpen (String sockName) {
-        newChat("System", sockName+"加入", jPanel1, 1);
-        operator.send(sockName, "nickname",nickname_text.getText());
+        operator.send(sockName, "nickname", nickname_text.getText());
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     public void onClose (String sockName) {
-        newChat("System", sockName+"離線", jPanel1, 1);
+        newChat("System", nicknames.get(sockName)+"離線", jPanel1, 1);
+        list.removeElement(nicknames.get(sockName));
+        nicknames.remove(sockName);
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     public void onMessage (String sockName, String type, String msg) {
         switch (type) {
             case "nickname":
-                if (! nicknames.containsKey(sockName)) {
+                if (nicknames.containsKey(sockName)) {
+                    if (! nicknames.get(sockName).equals(msg)) {
+                        newChat("System", nicknames.get(sockName)+"更名為"+msg, jPanel1, 1);
+                        list.removeElement(nicknames.get(sockName));
+                        list.addElement(msg);
+                        nicknames.put(sockName, msg);
+                    }
+                } else {
+                    newChat("System", msg+"加入", jPanel1, 1);
                     list.addElement(msg);
                     nicknames.put(sockName, msg);
                 }
