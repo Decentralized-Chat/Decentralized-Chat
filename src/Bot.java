@@ -24,9 +24,11 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Enumeration;
+import java.util.Collections;
 /*from ww w .j a  va  2  s . co m*/
 
 abstract class Bot implements Runnable {
@@ -35,7 +37,7 @@ abstract class Bot implements Runnable {
   private ServerSocketChannel tcpServer = null;
   private DatagramChannel udpServer = null;
   private InetAddress broadcastAddr = null;
-  private InetAddress inetAddr = null;
+  private Set<InetAddress> inetAddr = new HashSet<>();
   private InetAddress listenAddr = null;
   private int listenPort = 0;
   private Thread thread = null;
@@ -167,7 +169,7 @@ abstract class Bot implements Runnable {
           String magic = byteBuffer2String(buf);
           System.out.printf("[UDP] from %s get: %s\n", clientSockAddr.toString(), magic);
           TOTP totp = new TOTP(totpSecret, totpAcceptDelay);
-          if (totp.checkToken(magic) && (! clientIP.equals(inetAddr))) {
+          if (totp.checkToken(magic) && (! inetAddr.contains(clientIP))) {
             connect(clientIP, listenPort);
           }
         } else {
@@ -239,7 +241,6 @@ abstract class Bot implements Runnable {
 
   private boolean getNetwork () throws Exception {
     Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-    InetAddress bAddr = null, iAddr = null;
     while(en.hasMoreElements()) {
         NetworkInterface ni = en.nextElement();
         if (ni.isLoopback()) {
@@ -248,27 +249,25 @@ abstract class Bot implements Runnable {
 
         Enumeration<InetAddress> ee = ni.getInetAddresses();
 
-        for (InterfaceAddress ia : ni.getInterfaceAddresses()) {
-          bAddr = ia.getBroadcast();
-          if (bAddr != null) {
-            break;
-          }
+        if (broadcastAddr == null) {
+            for (InterfaceAddress ia : ni.getInterfaceAddresses()) {
+                broadcastAddr = ia.getBroadcast();
+                if (broadcastAddr != null) {
+                    break;
+                }
+            }
         }
 
-        while (ee.hasMoreElements()) {
-          iAddr = ee.nextElement();
-          if (iAddr != null) {
-            break;
-          }
-        }
-
-        if (bAddr != null && iAddr != null) {
-          broadcastAddr = bAddr;
-          inetAddr = iAddr;
-          return true;
+        for (InetAddress inetAddress : Collections.list(ee)) {
+            inetAddr.add(inetAddress);
+            System.out.println("My self inetAddress: "+inetAddress);
         }
     }
-    return false;
+    if (broadcastAddr == null) {
+        return false;
+    } else {
+        return true;
+    }
   }
 
   private void listen (String host, int port) throws Exception {
