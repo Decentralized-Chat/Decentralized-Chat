@@ -259,6 +259,7 @@ public class MESSENINE extends javax.swing.JFrame {
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         operator.send("text", jTextArea2.getText());
         jTextArea2.setText("");
+        jTextArea2.requestFocusInWindow();
     }//GEN-LAST:event_sendActionPerformed
 
  
