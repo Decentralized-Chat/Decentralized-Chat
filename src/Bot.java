@@ -58,8 +58,8 @@ abstract class Bot implements Runnable {
   public void send (String type, String msg) {
     for (Map.Entry<String, SocketChannel> ent : connections.entrySet()) {
       try {
-        ent.getValue().write(ByteBuffer.wrap((type + ":" + msg).getBytes()));
         System.out.printf("[log] send sock %s\n", ent.getKey());
+        ent.getValue().write(ByteBuffer.wrap((type + ":" + msg).getBytes("UTF-8")));
       } catch (Exception e) {
         System.out.printf("[ERROR] when send to %s\n", ent.getKey());
       }
