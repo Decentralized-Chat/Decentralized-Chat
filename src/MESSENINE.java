@@ -368,7 +368,7 @@ public class MESSENINE extends javax.swing.JFrame {
         Vertical_Offset = 7;
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         jScrollPane2.setVerticalScrollBarPolicy(jScrollPane2.VERTICAL_SCROLLBAR_NEVER);
-        jScrollPane2.setHorizontalScrollBarPolicy(jScrollPane2.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane2.setVerticalScrollBarPolicy(jScrollPane2.VERTICAL_SCROLLBAR_ALWAYS);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 int Vertical_Offset = 7;
