@@ -302,7 +302,7 @@ public class MESSENINE extends javax.swing.JFrame {
                 defaultnickname = randomnickname[(int)(Math.random()*randomnickname.length)];
             }
         }
-        if (newnickname != null) {
+        if (newnickname != null && !nickname.equals(newnickname)) {
             nickname_text.setText(newnickname);
             operator.send("nickname", newnickname);
             newChat("System", "你更名為"+newnickname, jPanel1, 1);
