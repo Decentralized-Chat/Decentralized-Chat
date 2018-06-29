@@ -292,11 +292,16 @@ public class MESSENINE extends javax.swing.JFrame {
         sendMessage();
     }//GEN-LAST:event_sendActionPerformed
     
-    private void sendMessage() {
-        newChat(nickname_text.getText(), jTextArea2.getText(), jPanel1, 0);
+    private boolean sendMessage() {
+        String message = jTextArea2.getText().trim();
+        if(message.length() == 0) {
+            return false;
+        }
+        newChat(nickname_text.getText(), message, jPanel1, 0);
         operator.send("text", jTextArea2.getText());
         jTextArea2.setText("");
         jTextArea2.requestFocusInWindow();
+        return true;
     }
     
     private void jTextArea2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyPressed
