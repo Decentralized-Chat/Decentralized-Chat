@@ -74,7 +74,7 @@ abstract class Bot implements Runnable {
     }
 
     try {
-      connections.get(sockName).write(ByteBuffer.wrap((type + ":" + msg).getBytes()));
+      connections.get(sockName).write(ByteBuffer.wrap((type + ":" + msg).getBytes("UTF-8")));
     } catch (Exception e) {
       System.out.printf("[ERROR] when peer send to %s\n", sockName);
     }
