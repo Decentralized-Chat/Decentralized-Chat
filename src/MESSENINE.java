@@ -137,7 +137,7 @@ public class MESSENINE extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Decentralized Chat");
+        setTitle("Cheat Engine");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -256,6 +256,7 @@ public class MESSENINE extends javax.swing.JFrame {
         jList1.setModel(list);
         list.addElement(nickname);
         operator.launch("0.0.0.0", 9453);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         jTextArea2.requestFocusInWindow();
     }//GEN-LAST:event_formWindowOpened
 
