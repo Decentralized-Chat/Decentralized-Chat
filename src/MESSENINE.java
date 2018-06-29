@@ -30,14 +30,12 @@ public class MESSENINE extends javax.swing.JFrame {
 
     public void onOpen (String sockName) {
         operator.send(sockName, "nickname", nickname_text.getText());
-        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     public void onClose (String sockName) {
         newChat("System", nicknames.get(sockName)+"離線", jPanel1, 1);
         list.removeElement(nicknames.get(sockName));
         nicknames.remove(sockName);
-        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     public void onMessage (String sockName, String type, String msg) {
@@ -65,7 +63,6 @@ public class MESSENINE extends javax.swing.JFrame {
                 newChat(sockName, "("+type+")"+msg, jPanel1, 0);
 
         }
-        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     }
 
     /**
@@ -297,7 +294,6 @@ public class MESSENINE extends javax.swing.JFrame {
     
     private void sendMessage() {
         newChat(nickname_text.getText(), jTextArea2.getText(), jPanel1, 0);
-        jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         operator.send("text", jTextArea2.getText());
         jTextArea2.setText("");
         jTextArea2.requestFocusInWindow();
@@ -344,7 +340,6 @@ public class MESSENINE extends javax.swing.JFrame {
             list.removeElement(nickname);
             list.addElement(newnickname);
             nickname = newnickname;
-            jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         }
     }//GEN-LAST:event_jMenuItemChangeNicknameActionPerformed
 
@@ -474,6 +469,7 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
     targetPanel.setLayout(targetPanelLayout);
 
     Vertical_Offset += (text_rows + 1) * Font_Height + Panel_margin;
+    jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
     return true;
 }
 
