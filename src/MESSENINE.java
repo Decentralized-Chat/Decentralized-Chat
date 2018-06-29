@@ -256,6 +256,7 @@ public class MESSENINE extends javax.swing.JFrame {
         jList1.setModel(list);
         list.addElement(nickname);
         operator.launch("0.0.0.0", 9453);
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(16);
         jTextArea2.requestFocusInWindow();
     }//GEN-LAST:event_formWindowOpened
 
