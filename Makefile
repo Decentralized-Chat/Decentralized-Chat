@@ -3,3 +3,6 @@ all: MESSENINE.class
 
 MESSENINE.class:
 	cd src && javac MESSENINE.java -encoding utf8
+
+clean:
+	cd src && del *.class
