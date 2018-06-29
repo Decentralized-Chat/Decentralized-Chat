@@ -276,17 +276,36 @@ public class MESSENINE extends javax.swing.JFrame {
     }//GEN-LAST:event_getnicknameActionPerformed
 
     private void sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendActionPerformed
+        sendMessage();
+    }//GEN-LAST:event_sendActionPerformed
+    
+    private void sendMessage() {
         newChat(nickname_text.getText(), jTextArea2.getText(), jPanel1, 0);
         jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         operator.send("text", jTextArea2.getText());
         jTextArea2.setText("");
         jTextArea2.requestFocusInWindow();
-    }//GEN-LAST:event_sendActionPerformed
-
+    }
+    
     private void jTextArea2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyPressed
         char c = evt.getKeyChar();
-        if ( c == 9 ) { // Tab
-            evt.consume();
+        switch(c) {
+            case 9: // Tab
+                evt.consume();
+                break;
+            case 10: // Enter
+                if(evt.isShiftDown()) { // Newline
+                    String oldtext = jTextArea2.getText();
+                    int start = jTextArea2.getSelectionStart();
+                    int end = jTextArea2.getSelectionEnd();
+                    jTextArea2.setText(oldtext.substring(0, start)+"\n"+oldtext.substring(end));
+                    jTextArea2.setSelectionStart(start+1);
+                    jTextArea2.setSelectionEnd(start+1);
+                } else { // Send
+                    sendMessage();
+                    evt.consume();
+                }
+                break;
         }
     }//GEN-LAST:event_jTextArea2KeyPressed
 
