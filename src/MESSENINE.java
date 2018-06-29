@@ -6,6 +6,7 @@ import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import java.util.concurrent.TimeUnit;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -92,6 +93,8 @@ public class MESSENINE extends javax.swing.JFrame {
         jMenuBar = new javax.swing.JMenuBar();
         jMenuSetting = new javax.swing.JMenu();
         jMenuItemChangeNickname = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jFrame1.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -192,6 +195,18 @@ public class MESSENINE extends javax.swing.JFrame {
         jMenuSetting.add(jMenuItemChangeNickname);
 
         jMenuBar.add(jMenuSetting);
+
+        jMenu1.setText("message");
+
+        jMenuItem1.setText("AMAZING!");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar.add(jMenu1);
 
         setJMenuBar(jMenuBar);
 
@@ -332,6 +347,12 @@ public class MESSENINE extends javax.swing.JFrame {
             jPanel1.scrollRectToVisible(new Rectangle(0, 0x7fffffff, 0, 0));
         }
     }//GEN-LAST:event_jMenuItemChangeNicknameActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+
+        operator.send("text", "AMAZING!");
+        newChat(nickname_text.getText(), "AMAZING!", jPanel1, 0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
 int Vertical_Offset = 7;
 boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mode){
@@ -498,7 +519,9 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemChangeNickname;
     private javax.swing.JMenu jMenuSetting;
     private javax.swing.JPanel jPanel1;
