@@ -44,8 +44,7 @@ abstract class Bot implements Runnable {
   private boolean running = false;
   private String totpSecret = "----magic----";
   private int totpAcceptDelay = 1;
-  private String buffer;
-  private int buflen = 0;
+  private String buffer = "";
 
   abstract void onOpen (String sockName);
   abstract void onClose (String sockName);
@@ -113,42 +112,62 @@ abstract class Bot implements Runnable {
 
   private void write (String sockName, String data) {
     try {
-      connections.get(sockName).write(ByteBuffer.wrap(data.getBytes("UTF-8")));
+      connections.get(sockName).write(ByteBuffer.wrap((data.length() + ":" + data).getBytes("UTF-8")));
     } catch (Exception e) {
       System.out.printf("[ERROR] when send to %s\n", sockName);
     }
   }
 
   private void onData (String sockName, String data) throws Exception {
-    int len = 0;
-    String type = null, msg = null;
-    int first = -1, second = -1;
+    buffer += data;
+    String line;
+    while ((line = chunkData()) != null) {
+      String type = null, msg = null;
+      int first = -1;
 
-    if (buflen > 0) {
-      data = buffer + data;
+      first = line.indexOf(':');
+      if (first == -1) {
+        return;
+      }
+
+      type = line.substring(0, first);
+      msg = line.substring(first + 1);
+
+      System.out.printf("%s, %s\n", type, msg);
+      onMessage(sockName, type, msg);
     }
+  }
 
-    first = data.indexOf(':');
+  private String chunkData () {
+    System.out.println("### chunkData, buffer = " + buffer);
+    int first = buffer.indexOf(':');
     if (first == -1) {
-      return;
+      return null;
     }
 
-    second = data.indexOf(':', first);
-    if (second == -1) {
-      return;
+    System.out.println("### chunkData, first = " + first);
+    int datalen;
+    int totalen;
+    try {
+      datalen = Integer.parseInt(buffer.substring(0, first));
+      totalen = datalen + first + 1;
+    } catch (Exception e) {
+      System.out.printf("[ERROR] when chunkData, clear buffer.\n");
+      return null;
     }
 
-    len = Integer.parseInt(data.substring(0, first));
+    if (buffer.length() < totalen) {
+      return null;
+    } 
 
-    if (len > data.length()) {
-      buflen = data.length() - len;
-      buffer = data.substring(len);
-      data = data.substring(0, len);
+    String ret = buffer.substring(first + 1, totalen);
+    if (buffer.length() > totalen) {
+      buffer = buffer.substring(totalen);
+    } else {
+      buffer = "";
     }
 
-    type = data.substring(0, first);
-    msg = data.substring(first + 1);
-    onMessage(sockName, type, msg);
+    return ret;
   }
 
   private void serverSelect (Set readySet) throws Exception {
