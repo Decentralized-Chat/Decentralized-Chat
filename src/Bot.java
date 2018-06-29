@@ -44,6 +44,8 @@ abstract class Bot implements Runnable {
   private boolean running = false;
   private String totpSecret = "----magic----";
   private int totpAcceptDelay = 1;
+  private String buffer;
+  private int buflen = 0;
 
   abstract void onOpen (String sockName);
   abstract void onClose (String sockName);
@@ -59,12 +61,7 @@ abstract class Bot implements Runnable {
 
   public void send (String type, String msg) {
     for (Map.Entry<String, SocketChannel> ent : connections.entrySet()) {
-      try {
-        System.out.printf("[log] send sock %s\n", ent.getKey());
-        ent.getValue().write(ByteBuffer.wrap((type + ":" + msg).getBytes("UTF-8")));
-      } catch (Exception e) {
-        System.out.printf("[ERROR] when send to %s\n", ent.getKey());
-      }
+      write(ent.getKey(), type + ":" + msg);
     }
   }
 
@@ -73,11 +70,7 @@ abstract class Bot implements Runnable {
       return;
     }
 
-    try {
-      connections.get(sockName).write(ByteBuffer.wrap((type + ":" + msg).getBytes("UTF-8")));
-    } catch (Exception e) {
-      System.out.printf("[ERROR] when peer send to %s\n", sockName);
-    }
+    write(sockName, type + ":" + msg);
   }
 
   public void launch (String host, int port) {
@@ -118,12 +111,39 @@ abstract class Bot implements Runnable {
     System.out.printf("[log] sleeping.\n");
   }
 
-  private void onData (String sockName, String data) {
+  private void write (String sockName, String data) {
+    try {
+      connections.get(sockName).write(ByteBuffer.wrap(data.getBytes("UTF-8")));
+    } catch (Exception e) {
+      System.out.printf("[ERROR] when send to %s\n", sockName);
+    }
+  }
+
+  private void onData (String sockName, String data) throws Exception {
+    int len = 0;
     String type = null, msg = null;
-    int first = -1;
+    int first = -1, second = -1;
+
+    if (buflen > 0) {
+      data = buffer + data;
+    }
+
     first = data.indexOf(':');
     if (first == -1) {
       return;
+    }
+
+    second = data.indexOf(':', first);
+    if (second == -1) {
+      return;
+    }
+
+    len = Integer.parseInt(data.substring(0, first));
+
+    if (len > data.length()) {
+      buflen = data.length() - len;
+      buffer = data.substring(len);
+      data = data.substring(0, len);
     }
 
     type = data.substring(0, first);
@@ -186,7 +206,11 @@ abstract class Bot implements Runnable {
           }
 
           System.out.printf("[data] from %s: %s\n", sockName, msg);
-          onData(sockName, msg);
+          try {
+            onData(sockName, msg);
+          } catch (Exception e) {
+            System.out.printf("[ERROR] when handle data %s\n", sockName);
+          }
         }
       }
     }
@@ -344,7 +368,4 @@ abstract class Bot implements Runnable {
     socket.close();
   }
 
-  public void debug (String data) {
-    onData(":test:", data);
-  }
 }
