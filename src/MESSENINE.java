@@ -91,6 +91,7 @@ public class MESSENINE extends javax.swing.JFrame {
         jMenuSetting = new javax.swing.JMenu();
         jMenuItemChangeNickname = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
@@ -199,6 +200,14 @@ public class MESSENINE extends javax.swing.JFrame {
             }
         });
         jMenuSetting.add(jMenuItem2);
+
+        jMenuItem3.setText("Save");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenuSetting.add(jMenuItem3);
 
         jMenuBar.add(jMenuSetting);
 
@@ -371,6 +380,13 @@ public class MESSENINE extends javax.swing.JFrame {
         jScrollPane2.setHorizontalScrollBarPolicy(jScrollPane2.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        int messageType;
+        messageType =  JOptionPane.WARNING_MESSAGE;
+        JOptionPane.showMessageDialog(this, "警告！\n如果儲存下來的訊息被發現將妨礙您的保密性\n我們強烈建議您不要將訊息儲存下來");
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
 int Vertical_Offset = 7;
 boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mode){
     // 物件--------------------------------------------------------
@@ -541,6 +557,7 @@ boolean newChat(String name, String text, javax.swing.JPanel targetPanel, int mo
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemChangeNickname;
     private javax.swing.JMenu jMenuSetting;
     private javax.swing.JPanel jPanel1;
