@@ -169,6 +169,11 @@ public class MESSENINE extends javax.swing.JFrame {
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
+        jTextArea2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextArea2KeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTextArea2);
 
         Yournickname_text.setText("Your nickname:");
@@ -286,6 +291,13 @@ public class MESSENINE extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // ADD YOUR CHANGE NICK NAME CODE HERE
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTextArea2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyPressed
+        char c = evt.getKeyChar();
+        if ( c == 9 ) { // Tab
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextArea2KeyPressed
 
  
 int Vertical_Offset = 7;
