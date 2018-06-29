@@ -302,6 +302,7 @@ public class MESSENINE extends javax.swing.JFrame {
     }//GEN-LAST:event_sendActionPerformed
     
     private boolean sendMessage() {
+        jTextArea2.requestFocusInWindow();
         String message = jTextArea2.getText().trim();
         if(message.length() == 0) {
             return false;
@@ -309,7 +310,6 @@ public class MESSENINE extends javax.swing.JFrame {
         newChat(nickname_text.getText(), message, jPanel1, 0);
         operator.send("text", jTextArea2.getText());
         jTextArea2.setText("");
-        jTextArea2.requestFocusInWindow();
         return true;
     }
     
